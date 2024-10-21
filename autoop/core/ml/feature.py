@@ -5,8 +5,12 @@ import numpy as np
 
 from autoop.core.ml.dataset import Dataset
 
+
 class Feature(BaseModel):
-    # attributes here
+    name: str = Field(..., description="Name of the feature")
+    type: Literal["categorical", "numerical"] = Field(
+        ..., description="Type of the feature"
+    )
 
     def __str__(self):
-        raise NotImplementedError("To be implemented.")
+        return f"{self.name}: {self.type}"

@@ -153,8 +153,8 @@ If you did not implement the feature
 
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
 |-------------------------------------- |--------------|----------------------|--------------------------|---------|         
-| Up-to-date requirements.txt           | NF           |                      |         | |
-| `ML/detect-features`                  | FN           |                      |         | |
+| Up-to-date requirements.txt           | NF           |      Mihai           |    x    | |
+| `ML/detect-features`                  | FN           |      Mihai           |    x    | |
 | `ML/artifact`                         | NF           |                      |         | |
 | `ML/feature`                          | NF           |                      |         | |
 | `ML/metric`                           | NF           |                      |         | |
