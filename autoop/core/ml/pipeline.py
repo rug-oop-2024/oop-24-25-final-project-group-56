@@ -115,8 +115,15 @@ Pipeline(
         self._split_data()
         self._train()
         self._evaluate()
+
+        train_metrics = [metric for (metric, _) in self._metrics_results]
+        self._model.evaluate(train_metrics)
+
+        evaluation_metrics = [metric for (metric, _) in self._metrics_results]
+        self._model.evaluate(evaluation_metrics)
         return {
-            "metrics": self._metrics_results,
+            "train_metrics": train_metrics,
+            "evaluation_metrics": evaluation_metrics,
             "predictions": self._predictions,
         }
         

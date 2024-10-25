@@ -22,5 +22,5 @@ class Model(ABC, BaseModel):
         pass
 
     @abstractmethod
-    def parameters(self) -> dict:
+    def get_parameters(self) -> dict:
         pass

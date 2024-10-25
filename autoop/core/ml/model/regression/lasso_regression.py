@@ -1,17 +1,17 @@
 from typing import ClassVar
 
 import numpy as np
-from sklearn.linear_model import LinearRegression
+from sklearn.linear_model import Lasso
 
 from autoop.core.ml.model.model import Model
 
 
-class MultipleLinearRegression(Model):
-    _parameters: dict = None
-    _model: ClassVar[LinearRegression] = LinearRegression()
+class LassoRegression(Model):
+    parameters: dict = None
+    _model: ClassVar[Lasso] = Lasso()
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
-        self._parameters = {
+        self.parameters = {
             "coefficients": self._model.coef_,
             "intercept": self._model.intercept_
         }
@@ -21,4 +21,4 @@ class MultipleLinearRegression(Model):
         return self._model.predict(observations)
 
     def get_parameters(self):
-        return self._parameters
+        return self.parameters

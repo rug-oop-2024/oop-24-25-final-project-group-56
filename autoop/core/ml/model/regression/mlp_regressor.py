@@ -8,11 +8,11 @@ from autoop.core.ml.model.model import Model
 
 class MLPRegressor(Model):
 
-    _parameters: dict = None
+    parameters: dict = None
     _model: ClassVar[MLPRegressor] = MLPRegressor()
 
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
-        self._parameters = {
+        self.parameters = {
             "coefficients": self._model.coefs_,
             "intercept": self._model.intercepts_,
         }
@@ -22,4 +22,4 @@ class MLPRegressor(Model):
         return self._model.predict(observations)
 
     def get_parameters(self):
-        return self._parameters
+        return self.parameters

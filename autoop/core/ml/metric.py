@@ -5,7 +5,8 @@ import numpy as np
 METRICS = [
     "mean_squared_error",
     "accuracy",
-] # add the names (in strings) of the metrics you implement
+]  # add the names (in strings) of the metrics you implement
+
 
 def get_metric(name: str):
     # Factory function to get a metric by name.
@@ -16,6 +17,7 @@ def get_metric(name: str):
     elif name == "accuracy":
         return Accuracy()
 
+
 class Metric(ABC):
     """Base class for all metrics.
     """
@@ -23,10 +25,10 @@ class Metric(ABC):
     # remember: metrics take ground truth and prediction as input and return a real number
 
     def __call__(self):
-        return self.calculate()
-    
+        return self.evaluate()
+
     @abstractmethod
-    def calculate(self):
+    def evaluate(self):
         pass
 
 
@@ -37,8 +39,8 @@ class MeanSquaredError(Metric):
         self.y_hat = y_hat
         self.y = y
 
-    def calculate(self):
-        return np.mean((self.y_hat - self.y) ** 2)
+    def evaluate(self, y_hat, y):
+        return np.mean((y_hat - y) ** 2)
 
 
 class MeanAbsoluteError(Metric):
@@ -46,8 +48,8 @@ class MeanAbsoluteError(Metric):
         self.y_hat = y_hat
         self.y = y
 
-    def calculate(self):
-        return np.mean(np.abs(self.y_hat - self.y))
+    def evaluate(self, y_hat, y):
+        return np.mean(np.abs(y_hat - y))
 
 
 class RSquared(Metric):
@@ -55,9 +57,9 @@ class RSquared(Metric):
         self.y_hat = y_hat
         self.y = y
 
-    def calculate(self):
-        ss_res = np.sum((self.y - self.y_hat) ** 2)
-        ss_tot = np.sum((self.y - np.mean(self.y)) ** 2)
+    def evaluate(self, y_hat, y):
+        ss_res = np.sum((y - y_hat) ** 2)
+        ss_tot = np.sum((y - np.mean(y)) ** 2)
         return 1 - (ss_res / ss_tot)
 
 
@@ -67,8 +69,8 @@ class Accuracy(Metric):
         self.y_hat = y_hat
         self.y = y
 
-    def calculate(self):
-        return np.mean(self.y_hat == self.y)
+    def evaluate(self, y_hat, y):
+        return np.mean(y_hat == y)
 
 
 class Precision(Metric):
@@ -76,9 +78,9 @@ class Precision(Metric):
         self.y_hat = y_hat
         self.y = y
 
-    def calculate(self):
-        true_positive = np.sum((self.y_hat == 1) & (self.y == 1))
-        false_positive = np.sum((self.y_hat == 1) & (self.y == 0))
+    def evaluate(self, y_hat, y):
+        true_positive = np.sum((y_hat == 1) & (y == 1))
+        false_positive = np.sum((y_hat == 1) & (y == 0))
         return true_positive / (true_positive + false_positive)
 
 
@@ -87,7 +89,7 @@ class Recall(Metric):
         self.y_hat = y_hat
         self.y = y
 
-    def calculate(self):
-        true_positive = np.sum((self.y_hat == 1) & (self.y == 1))
-        false_negative = np.sum((self.y_hat == 0) & (self.y == 1))
+    def evaluate(self, y_hat, y):
+        true_positive = np.sum((y_hat == 1) & (y == 1))
+        false_negative = np.sum((y_hat == 0) & (y == 1))
         return true_positive / (true_positive + false_negative)
