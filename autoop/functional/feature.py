@@ -11,11 +11,11 @@ def detect_feature_types(dataset: Dataset) -> List[Feature]:
     Returns:
         List[Feature]: List of features with their types.
     """
+    data = dataset.read()
     features = []
-    for row in dataset.rows:
-        for column in dataset.columns:
-            if isinstance(dataset[row][column], str):
-                features.append(Feature(name=column, type='categorical'))
-            else:
-                features.append(Feature(name=column, type='numerical'))
+    for column in data.columns:
+        if data[column].dtype == 'int64' or data[column].dtype == 'float64':
+            features.append(Feature(name=column, type='numerical'))
+        else:
+            features.append(Feature(name=column, type='categorical'))
     return features

@@ -15,11 +15,14 @@ class Dataset(Artifact):
             asset_path=asset_path,
             data=data.to_csv(index=False).encode(),
             version=version,
+            metadata={
+                "type": "dataset"
+            },
+            tags=["dataset"]
         )
         
     def read(self) -> pd.DataFrame:
-        bytes = super().read()
-        csv = bytes.decode()
+        csv = self.data.decode()
         return pd.read_csv(io.StringIO(csv))
     
     def save(self, data: pd.DataFrame) -> bytes:
