@@ -9,3 +9,23 @@ automl = AutoMLSystem.get_instance()
 datasets = automl.registry.list(type="dataset")
 
 # your code here
+st.title("Datasets")
+
+st.header("List of datasets")
+for dataset in datasets:
+    st.write(f"- {dataset.name}")
+
+st.header("Upload a CSV file")
+
+uploaded_file = st.file_uploader("Choose a file")
+
+if uploaded_file is not None:
+    df = pd.read_csv(uploaded_file)
+    name = uploaded_file.name
+    asset_path = f"assets/datasets/{name}"
+    dataset = Dataset.from_dataframe(df, name, asset_path)
+
+    st.header("Save the dataset")
+    if st.button("Save"):
+        automl.registry.register(dataset)
+        st.success("Dataset saved successfully")

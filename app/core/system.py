@@ -25,7 +25,7 @@ class ArtifactRegistry():
             "metadata": artifact.metadata,
             "type": artifact.type,
         }
-        self._database.set(f"artifacts", artifact.id, entry)
+        self._database.set(f"artifacts", artifact.name, entry)
     
     def list(self, type: str=None) -> List[Artifact]:
         entries = self._database.list("artifacts")
@@ -41,6 +41,7 @@ class ArtifactRegistry():
                 metadata=data["metadata"],
                 data=self._storage.load(data["asset_path"]),
                 type=data["type"],
+                id=id
             )
             artifacts.append(artifact)
         return artifacts

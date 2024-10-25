@@ -13,7 +13,7 @@ class Dataset(Artifact):
     def from_dataframe(
         data: pd.DataFrame, name: str, asset_path: str, version: str = "1.0.0"
     ):
-        return Dataset(
+        dataset = Dataset(
             name=name,
             asset_path=asset_path,
             data=data.to_csv(index=False).encode(),
@@ -21,8 +21,11 @@ class Dataset(Artifact):
             metadata={
                 "type": "dataset"
             },
+            id="id",
             tags=["dataset"]
         )
+        dataset.id = dataset.generate_id()
+        return dataset
 
     def read(self) -> pd.DataFrame:
         csv = self.data.decode()
