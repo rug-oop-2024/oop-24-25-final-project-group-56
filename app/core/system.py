@@ -54,6 +54,7 @@ class ArtifactRegistry():
             asset_path=data["asset_path"],
             tags=data["tags"],
             metadata=data["metadata"],
+            id=artifact_id,
             data=self._storage.load(data["asset_path"]),
             type=data["type"],
         )

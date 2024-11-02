@@ -22,3 +22,6 @@ class Artifact(BaseModel):
             self.asset_path.encode('utf-8')
         ).decode('utf-8')
         return f"{encoded_path}:{self.version}"
+    
+
+    

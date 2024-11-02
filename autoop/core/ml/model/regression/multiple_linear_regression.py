@@ -23,3 +23,5 @@ class MultipleLinearRegression(Model):
 
     def get_parameters(self) -> dict:
         return self.parameters
+    
+
