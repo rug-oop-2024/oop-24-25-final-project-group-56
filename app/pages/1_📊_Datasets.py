@@ -29,3 +29,4 @@ if uploaded_file is not None:
     if st.button("Save"):
         automl.registry.register(dataset)
         st.success("Dataset saved successfully")
+        

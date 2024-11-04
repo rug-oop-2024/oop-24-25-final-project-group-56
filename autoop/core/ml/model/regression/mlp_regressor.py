@@ -10,11 +10,10 @@ class MLPRegressor(Model):
 
     parameters: dict = None
     _model: ClassVar[MLPRegressor] = MLPRegressor()
-
+    type: ClassVar[str] = "regression"
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
         self.parameters = {
-            "coefficients": self._model.coefs_,
-            "intercept": self._model.intercepts_,
+            None: None
         }
         self._model.fit(observations, ground_truth)
 

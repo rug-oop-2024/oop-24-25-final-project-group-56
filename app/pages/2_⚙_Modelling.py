@@ -1,13 +1,13 @@
 import streamlit as st
 import pandas as pd
 import io
-
 from app.core.system import AutoMLSystem
 from autoop.core.ml.dataset import Dataset
 from autoop.core.ml.metric import get_metric
 from autoop.functional.feature import detect_feature_types
 from autoop.core.ml.pipeline import Pipeline
-from autoop.core.ml.model.regression import MultipleLinearRegression
+from autoop.core.ml.model import get_model
+from autoop.core.ml.artifact import Artifact
 
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
@@ -31,6 +31,7 @@ dataset = automl.registry.get(dataset_id)
 st.write(f"Selected dataset: {dataset.name}")
 
 df = pd.read_csv(io.BytesIO(dataset.data))
+
 dataset = Dataset.from_dataframe(df, name=dataset.name, asset_path=dataset.asset_path, version=dataset.version)
 features = detect_feature_types(dataset)
 
@@ -43,14 +44,15 @@ input_features = st.multiselect("Select the input features", [feature for featur
 
 st.header("Select the model")
 if target_feature.type == "categorical":
-    model = st.selectbox("Select the model", ["LogisticRegression", "MLPClassifier", "RidgeClassifier"])
+    model_str = st.selectbox("Select the model", ["LogisticRegression", "MLPClassifier", "RidgeClassifier"])
 else:
-    model = st.selectbox("Select the model", ["MultipleLinearRegression", "Lasso", "MLPRegressor"])
+    model_str = st.selectbox("Select the model", ["MultipleLinearRegression", "Lasso", "MLPRegressor"])
 
-if model == "MultipleLinearRegression":
-    model = MultipleLinearRegression()
+model = get_model(model_str)
 
-st.write(f"Selected model: {model}")
+
+
+st.write(f"Selected model: {model_str}")
 st.header("Select a dataset split")
 split_ratio = st.slider("Select the split ratio", min_value=0.1, max_value=0.9, value=0.8, step=0.1)
 st.write(f"Selected split ratio for training and testing: {split_ratio}")
@@ -82,16 +84,42 @@ for metric in metrics:
 st.header("Summary of choices")
 st.write(f"Selected dataset: {dataset.name}")
 st.write(f"Selected target feature: {target_feature.name}")
-st.write(f"Selected model: {model}")
+st.write(f"Selected model: {model_str}")
 st.write(f"Selected split ratio: {split_ratio}")
 st.write("Selected metrics:")
 for metric in metrics:
     st.write(f"- {metric}")
 
 #Train model
+
+def execute_pipeline():
+    pipeline = Pipeline(metrics_use, dataset, model, input_features, target_feature, split_ratio)
+    pipeline.execute()
+    return pipeline
 st.header("Train model")
 if st.button("Train"):
-    pipeline = Pipeline(metrics_use, dataset, model, input_features, target_feature, split_ratio)
-    def train(pipeline: Pipeline):
-        st.write(pipeline.execute())
-    pipeline = train(pipeline)
+    pipeline = execute_pipeline()
+    st.write("Model trained successfully")
+    #Print model
+    st.header("Results of training")
+    st.write("Predictions:")
+    st.write(pipeline._predictions)
+    st.write("Metrics results:")
+    for metric, result in pipeline._metrics_results:
+        st.write(f"- {metric}: {result}")
+
+#Save pipeline
+st.header("Save pipeline")
+pipeline_name = st.text_input("Enter a name for the pipeline")
+if st.button("Save"):
+    pipeline = execute_pipeline()
+    # artifacts = pipeline.artifacts
+    pipeline_artifact = Artifact(name=pipeline_name, type="pipeline", asset_path=f"assets/pipelines/{pipeline_name}", data=pipeline._dataset.data)
+    pipeline_artifact.id = pipeline_artifact.generate_id()
+    #for artifact in artifacts:
+        #artifact.name = pipeline_name
+        #artifact.asset_path = f"assets/pipelines/{pipeline_name}"
+        #artifact.id = artifact.generate_id()
+    automl.registry.register(pipeline_artifact)
+    st.write("Pipeline saved successfully")
+    

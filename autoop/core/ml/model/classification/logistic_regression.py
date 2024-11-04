@@ -10,11 +10,10 @@ class LogisticRegression(Model):
 
     parameters: dict = None
     _model: ClassVar[LogisticRegression] = LogisticRegression()
-
+    type: ClassVar[str] = "classification"
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
         self.parameters = {
-            "coefficients": self._model.coef_,
-            "intercept": self._model.intercept_,
+            None: None
         }
         self._model.fit(observations, ground_truth)
 

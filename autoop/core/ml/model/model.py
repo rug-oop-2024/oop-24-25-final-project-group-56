@@ -12,7 +12,9 @@ class Model(ABC, BaseModel):
     _parameters: dict = PrivateAttr(default_factory=dict)
     _strict_parameters: dict = PrivateAttr(default_factory=dict)
     _hyperparameters: dict = PrivateAttr(default_factory=dict)
-
+    type: Literal["regression", "classification"] = Field(
+        ..., description="Type of the model"
+    )
     @abstractmethod
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
         pass
@@ -25,3 +27,11 @@ class Model(ABC, BaseModel):
     def get_parameters(self) -> dict:
         pass
     
+    def to_artifact(self, name: str) -> Artifact:
+        return Artifact(
+            name=name,
+            type=self.type,
+            parameters=deepcopy(self._parameters),
+            strict_parameters=deepcopy(self._strict_parameters),
+            hyperparameters=deepcopy(self._hyperparameters),
+        )

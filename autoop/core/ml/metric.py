@@ -39,6 +39,9 @@ class Metric(ABC):
     def __call__(self):
         return self.evaluate()
 
+    def __str__(self):
+        return self.__class__.__name__
+
     @abstractmethod
     def evaluate(self):
         pass

@@ -9,7 +9,7 @@ from autoop.core.ml.model.model import Model
 class LassoRegression(Model):
     parameters: dict = None
     _model: ClassVar[Lasso] = Lasso()
-
+    type: ClassVar[str] = "regression"
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
         self.parameters = {
             "coefficients": self._model.coef_,

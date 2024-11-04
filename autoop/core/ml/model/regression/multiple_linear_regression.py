@@ -10,7 +10,7 @@ class MultipleLinearRegression(Model):
 
     parameters: dict = None
     _model: ClassVar[LinearRegression] = LinearRegression()
-
+    type: ClassVar[str] = "regression"
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
         self._model.fit(observations, ground_truth)
         self.parameters = {
@@ -24,4 +24,4 @@ class MultipleLinearRegression(Model):
     def get_parameters(self) -> dict:
         return self.parameters
     
-
+    

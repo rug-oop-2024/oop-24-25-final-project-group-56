@@ -9,7 +9,7 @@ from autoop.core.ml.model.model import Model
 class MLPClassifier(Model):
     parameters: dict = None
     _model: ClassVar[MLPClassifier] = MLPClassifier
-
+    type: ClassVar[str] = "classification"
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
         self.parameters = {
             "coefficients": self._model.coefs_,
