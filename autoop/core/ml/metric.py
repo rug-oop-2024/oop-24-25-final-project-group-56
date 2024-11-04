@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-from typing import Any
 import numpy as np
 
 METRICS = [
@@ -34,7 +33,8 @@ class Metric(ABC):
     """Base class for all metrics.
     """
     # your code here
-    # remember: metrics take ground truth and prediction as input and return a real number
+    # remember: metrics take ground truth and prediction as input
+    # and return a real number
 
     def __call__(self):
         return self.evaluate()
@@ -50,29 +50,80 @@ class Metric(ABC):
 # add here concrete implementations of the Metric class
 # Metric implementations for regression
 class MeanSquaredError(Metric):
-    def __init__(self, y_hat=None, y=None):
+    '''Mean Squared Error metric
+    args:
+        y_hat: predicted values
+        y: true values
+    returns:
+        mean squared error
+    '''
+    def __init__(self, y_hat=None, y=None) -> None:
+        '''
+        y_hat: predicted values
+        y: true values
+        '''
         self.y_hat = y_hat
         self.y = y
 
     def evaluate(self, y_hat, y) -> float:
+        '''
+        y_hat: predicted values
+        y: true values
+        returns:
+            mean squared error
+        '''
         return np.mean((y_hat - y) ** 2)
 
 
 class MeanAbsoluteError(Metric):
-    def __init__(self, y_hat=None, y=None):
+    '''Mean Absolute Error metric
+    args:
+        y_hat: predicted values
+        y: true values
+    returns:
+        mean absolute error
+    '''
+    def __init__(self, y_hat=None, y=None) -> None:
+        '''
+        y_hat: predicted values
+        y: true values
+        '''
         self.y_hat = y_hat
         self.y = y
 
     def evaluate(self, y_hat, y) -> float:
+        '''
+        y_hat: predicted values
+        y: true values
+        returns:
+            mean absolute error
+        '''
         return np.mean(np.abs(y_hat - y))
 
 
 class RSquared(Metric):
-    def __init__(self, y_hat=None, y=None):
+    '''R Squared metric
+    args:
+        y_hat: predicted values
+        y: true values
+    returns:
+        r squared value
+    '''
+    def __init__(self, y_hat=None, y=None) -> None:
+        '''
+        y_hat: predicted values
+        y: true values
+        '''
         self.y_hat = y_hat
         self.y = y
 
     def evaluate(self, y_hat, y) -> float:
+        '''
+        y_hat: predicted values
+        y: true values
+        returns:
+            r squared value
+        '''
         ss_res = np.sum((y - y_hat) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
         return 1 - (ss_res / ss_tot)
@@ -80,31 +131,82 @@ class RSquared(Metric):
 
 # Metric implementations for classification
 class Accuracy(Metric):
+    '''Accuracy metric
+    args:
+        y_hat: predicted values
+        y: true values
+    returns:
+        accuracy
+    '''
     def __init__(self, y_hat=None, y=None):
+        '''
+        y_hat: predicted values
+        y: true values
+        '''
         self.y_hat = y_hat
         self.y = y
 
     def evaluate(self, y_hat, y) -> float:
+        '''
+        y_hat: predicted values
+        y: true values
+        returns:
+            accuracy
+        '''
         return np.mean(y_hat == y)
 
 
 class Precision(Metric):
+    '''Precision metric
+    args:
+        y_hat: predicted values
+        y: true values
+    returns:
+        precision
+    '''
     def __init__(self, y_hat=None, y=None):
+        '''
+        y_hat: predicted values
+        y: true values
+        '''
         self.y_hat = y_hat
         self.y = y
 
     def evaluate(self, y_hat, y) -> float:
+        '''
+        y_hat: predicted values
+        y: true values
+        returns:
+            precision
+        '''
         true_positive = np.sum((y_hat == 1) & (y == 1))
         false_positive = np.sum((y_hat == 1) & (y == 0))
         return true_positive / (true_positive + false_positive)
 
 
 class Recall(Metric):
+    '''Recall metric
+    args:
+        y_hat: predicted values
+        y: true values
+    returns:
+        recall
+    '''
     def __init__(self, y_hat=None, y=None):
+        '''
+        y_hat: predicted values
+        y: true values
+        '''
         self.y_hat = y_hat
         self.y = y
 
     def evaluate(self, y_hat, y) -> float:
+        '''
+        y_hat: predicted values
+        y: true values
+        returns:
+            recall
+        '''
         true_positive = np.sum((y_hat == 1) & (y == 1))
         false_negative = np.sum((y_hat == 0) & (y == 1))
         return true_positive / (true_positive + false_negative)
