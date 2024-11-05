@@ -1,11 +1,13 @@
+"""This module defines the Artifact class."""
 from pydantic import BaseModel, Field
 from typing import Dict, List
 import base64
 
 
 class Artifact(BaseModel):
-    """Artifact class
-    args:
+    """Artifact class.
+
+    Args:
         name: name of the artifact
         version: version of the asset
         asset_path: path to the asset
@@ -13,8 +15,9 @@ class Artifact(BaseModel):
         metadata: metadata containing experiment and run IDs
         id: ID of the artifact
         type: type of model
-        tags: tags associated with the artifact
     """
+
+    version: str = Field("1.0.0", description="Version of the asset")
     name: str = Field("Artifact", description="Name of the artifact")
     version: str = Field("1.0.0", description="Version of the asset")
     asset_path: str = Field(
@@ -31,8 +34,9 @@ class Artifact(BaseModel):
         [], description="Tags associated with the artifact"
     )
 
-    def generate_id(self) -> str:
-        """Generate ID for the artifact
+    def generate_id(self: "Artifact") -> str:
+        """Generate ID for the artifact.
+
         returns:
             str: generated ID
         """

@@ -1,3 +1,4 @@
+"""This module provides a Streamlit interface for managing datasets."""
 import streamlit as st
 import pandas as pd
 

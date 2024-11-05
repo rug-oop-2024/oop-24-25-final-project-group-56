@@ -8,7 +8,7 @@ from autoop.core.ml.model.model import Model
 
 class MLPRegressor(Model):
     """MLP Regressor model."""
-    _parameters: dict = None
+    parameters: dict = None
     _model: ClassVar[MLPRegressor] = MLPRegressor()
     type: ClassVar[str] = "regression"
 
@@ -18,7 +18,7 @@ class MLPRegressor(Model):
             observations: np.ndarray: input data
             ground_truth: np.ndarray: target data
         """
-        self._parameters = {
+        self.parameters = {
             None: None
         }
         self._model.fit(observations, ground_truth)

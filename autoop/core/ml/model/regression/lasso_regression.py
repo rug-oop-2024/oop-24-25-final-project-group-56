@@ -8,7 +8,7 @@ from autoop.core.ml.model.model import Model
 
 class LassoRegression(Model):
     """Lasso regression model."""
-    _parameters: dict = None
+    parameters: dict = None
     _model: ClassVar[Lasso] = Lasso()
     type: ClassVar[str] = "regression"
 
@@ -18,7 +18,7 @@ class LassoRegression(Model):
             observations: np.ndarray: input data
             ground_truth: np.ndarray: target data
         """
-        self._parameters = {
+        self.parameters = {
             "coefficients": self._model.coef_,
             "intercept": self._model.intercept_
         }

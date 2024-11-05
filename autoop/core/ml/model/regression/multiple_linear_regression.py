@@ -8,18 +8,22 @@ from autoop.core.ml.model.model import Model
 
 class MultipleLinearRegression(Model):
     """Multiple linear regression model."""
-    _parameters: dict = None
+    parameters: dict = None
     _model: ClassVar[LinearRegression] = LinearRegression()
     type: ClassVar[str] = "regression"
 
-    def fit(self, observations: np.ndarray, ground_truth: np.ndarray) -> None:
+    def fit(
+        self: "MultipleLinearRegression", 
+        observations: np.ndarray, 
+        ground_truth: np.ndarray
+    ) -> None:
         """Fit the model to the data.
         Args:
             observations: np.ndarray: input data
             ground_truth: np.ndarray: target data
         """
         self._model.fit(observations, ground_truth)
-        self._parameters = {
+        self.parameters = {
             "coefficients": self._model.coef_,
             "intercept": self._model.intercept_,
         }

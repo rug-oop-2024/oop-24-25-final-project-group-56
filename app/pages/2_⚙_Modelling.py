@@ -1,3 +1,4 @@
+"""This module provides a Streamlit interface for training a pipeline."""
 import streamlit as st
 import pandas as pd
 import io
@@ -12,7 +13,13 @@ from autoop.core.ml.artifact import Artifact
 st.set_page_config(page_title="Modelling", page_icon="📈")
 
 
-def write_helper_text(text: str):
+def write_helper_text(text: str) -> None:
+    """
+    Write helper text in a specific style.
+
+    Args:
+        text (str): The text to be displayed.
+    """
     st.write(f"<p style=\"color: #888;\">{text}</p>", unsafe_allow_html=True)
 
 
@@ -128,7 +135,13 @@ for metric in metrics:
 # Train model
 
 
-def execute_pipeline():
+def execute_pipeline() -> Pipeline:
+    """
+    Execute the machine learning pipeline with the selected parameters.
+
+    Returns:
+        pipeline (Pipeline): The executed pipeline object.
+    """
     pipeline = Pipeline(
         metrics_use,
         dataset,
@@ -158,17 +171,19 @@ st.header("Save pipeline")
 pipeline_name = st.text_input("Enter a name for the pipeline")
 if st.button("Save"):
     pipeline = execute_pipeline()
-    # artifacts = pipeline.artifacts
     pipeline_artifact = Artifact(
         name=pipeline_name,
         type="pipeline",
         asset_path=f"assets/pipelines/{pipeline_name}",
-        data=pipeline._dataset.data
+        data=pipeline._dataset.data,
+        metadata={
+            "model": str(pipeline._model.__class__.__name__),
+            "metrics": str([metric.__class__.__name__ for metric in pipeline._metrics]),
+            "metrics results": str(list(pipeline._metrics_results)),
+            "predictions": str(pipeline._predictions),
+            "target_feature": pipeline._target_feature.name,
+        }
     )
     pipeline_artifact.id = pipeline_artifact.generate_id()
-    # for artifact in artifacts:
-    # artifact.name = pipeline_name
-    # artifact.asset_path = f"assets/pipelines/{pipeline_name}"
-    # artifact.id = artifact.generate_id()
     automl.registry.register(pipeline_artifact)
     st.write("Pipeline saved successfully")

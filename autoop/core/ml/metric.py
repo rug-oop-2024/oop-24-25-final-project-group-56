@@ -1,3 +1,4 @@
+"""This module contains the implementation of various metrics."""
 from abc import ABC, abstractmethod
 import numpy as np
 
@@ -11,39 +12,40 @@ METRICS = [
 ]  # add the names (in strings) of the metrics you implement
 
 
-def get_metric(name: str):
-    # Factory function to get a metric by name.
-    # Return a metric instance given its str name.
-
-    if name == "mean_squared_error":
+def get_metric(name: str) -> "Metric":
+    """Get a metric by name."""
+    if name == "mean_squared_error" or name == "MeanSquaredError":
         return MeanSquaredError()
-    elif name == "accuracy":
+    elif name == "accuracy" or name == "Accuracy":
         return Accuracy()
-    elif name == "mean_absolute_error":
+    elif name == "mean_absolute_error" or name == "MeanAbsoluteError":
         return MeanAbsoluteError()
-    elif name == "r_squared":
+    elif name == "r_squared" or name == "RSquared":
         return RSquared()
-    elif name == "precision":
+    elif name == "precision" or name == "Precision":
         return Precision()
-    elif name == "recall":
+    elif name == "recall" or name == "Recall":
         return Recall()
 
 
 class Metric(ABC):
-    """Base class for all metrics.
-    """
+    """Base class for all metrics."""
+
     # your code here
     # remember: metrics take ground truth and prediction as input
     # and return a real number
 
-    def __call__(self):
+    def __call__(self: "Metric") -> float:
+        """Call the metric."""
         return self.evaluate()
 
-    def __str__(self):
+    def __str__(self: "Metric") -> str:
+        """Return the string representation of the metric."""
         return self.__class__.__name__
 
     @abstractmethod
-    def evaluate(self):
+    def evaluate(self: "Metric") -> None:
+        """Evaluate the metric."""
         pass
 
 
@@ -138,7 +140,7 @@ class Accuracy(Metric):
     returns:
         accuracy
     '''
-    def __init__(self, y_hat=None, y=None):
+    def __init__(self, y_hat=None, y=None) -> None:
         '''
         y_hat: predicted values
         y: true values
