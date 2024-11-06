@@ -1,4 +1,5 @@
-from autoop.core.ml.artifact import Artifact
+"""Welcome module for the Streamlit application."""
+
 import streamlit as st
 
 st.set_page_config(

@@ -13,7 +13,7 @@ from autoop.core.ml.metric import get_metric
 from autoop.functional.feature import detect_feature_types
 from autoop.core.ml.pipeline import Pipeline
 from autoop.core.ml.model import get_model
-from autoop.core.ml.artifact import Artifact
+
 st.set_page_config(page_title="Deployment", page_icon="🚀")
 
 st.write("# 🚀 Deployment")
@@ -23,7 +23,10 @@ automl = AutoMLSystem.get_instance()
 pipelines = automl.registry.list(type="pipeline")
 
 st.header("Select a pipeline")
-pipeline_id = st.selectbox("Select a pipeline", [pipeline.id for pipeline in pipelines])
+pipeline_id = st.selectbox(
+    "Select a pipeline",
+    [pipeline.id for pipeline in pipelines]
+)
 selected_pipeline = automl.registry.get(pipeline_id)
 
 st.write(f"Selected pipeline: {selected_pipeline.name}")
@@ -63,7 +66,10 @@ st.write(pipeline)
 
 st.write("You selected this pipeline.")
 st.header("Make predictions")
-st.write("Upload a CSV file with data in the same manner as the pipeline to make predictions.")
+st.write(
+    "Upload a CSV file with data in the same manner as the pipeline "
+    "to make predictions."
+)
 
 uploaded_file = st.file_uploader("Choose a file")
 
@@ -74,6 +80,6 @@ if uploaded_file is not None:
         name=selected_pipeline.name,
         asset_path=selected_pipeline.asset_path,
         version=selected_pipeline.version
-    ) 
+    )
     predictions = pipeline.execute()
     st.write(predictions)

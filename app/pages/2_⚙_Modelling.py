@@ -35,6 +35,7 @@ datasets = automl.registry.list(type="dataset")
 
 # your code here
 
+# Dataset selection
 st.header("Select a dataset")
 dataset_id = st.selectbox(
     "Select a dataset",
@@ -53,8 +54,10 @@ dataset = Dataset.from_dataframe(
     asset_path=dataset.asset_path,
     version=dataset.version
 )
-features = detect_feature_types(dataset)
 
+# Feature detection and selection
+
+features = detect_feature_types(dataset)
 for feature in features:
     st.write(f"- {feature.name}: {feature.type}")
 
@@ -67,6 +70,8 @@ input_features = st.multiselect(
     "Select the input features",
     [feature for feature in features if feature != target_feature]
 )
+
+# Model selection
 
 st.header("Select the model")
 if target_feature.type == "categorical":
@@ -81,8 +86,9 @@ else:
     )
 
 model = get_model(model_str)
-
 st.write(f"Selected model: {model_str}")
+
+# Split data
 st.header("Select a dataset split")
 split_ratio = st.slider(
     "Select the split ratio",
@@ -96,12 +102,6 @@ st.write(f"Selected split ratio for training and testing: {split_ratio}")
 train_size = int((len(dataset.data) * split_ratio))
 train_data = dataset.data[:train_size]
 test_data = dataset.data[train_size:]
-
-st.write("Train data:")
-st.write(train_data)
-
-st.write("Test data:")
-st.write(test_data)
 
 # Select metrics
 st.header("Select metrics")
@@ -178,7 +178,9 @@ if st.button("Save"):
         data=pipeline._dataset.data,
         metadata={
             "model": str(pipeline._model.__class__.__name__),
-            "metrics": str([metric.__class__.__name__ for metric in pipeline._metrics]),
+            "metrics": str([
+                metric.__class__.__name__ for metric in pipeline._metrics
+            ]),
             "metrics results": str(list(pipeline._metrics_results)),
             "predictions": str(pipeline._predictions),
             "target_feature": pipeline._target_feature.name,

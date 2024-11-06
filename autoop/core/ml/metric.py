@@ -52,80 +52,125 @@ class Metric(ABC):
 # add here concrete implementations of the Metric class
 # Metric implementations for regression
 class MeanSquaredError(Metric):
-    '''Mean Squared Error metric
+    """Mean Squared Error metric.
+
     args:
         y_hat: predicted values
         y: true values
     returns:
         mean squared error
-    '''
-    def __init__(self, y_hat=None, y=None) -> None:
-        '''
+    """
+
+    def __init__(
+        self: "MeanSquaredError",
+        y_hat: np.ndarray = None,
+        y: np.ndarray = None
+    ) -> None:
+        """
+        Initialize the MeanSquaredError class.
+
         y_hat: predicted values
         y: true values
-        '''
+        """
         self.y_hat = y_hat
         self.y = y
 
-    def evaluate(self, y_hat, y) -> float:
-        '''
+    def evaluate(
+        self: "MeanSquaredError",
+        y_hat: np.ndarray,
+        y: np.ndarray
+    ) -> float:
+        """
+        Evaluate the mean squared error.
+
+        args:
         y_hat: predicted values
         y: true values
         returns:
             mean squared error
-        '''
+        """
         return np.mean((y_hat - y) ** 2)
 
 
 class MeanAbsoluteError(Metric):
-    '''Mean Absolute Error metric
+    """
+    Mean Absolute Error metric.
+
     args:
         y_hat: predicted values
         y: true values
     returns:
         mean absolute error
-    '''
-    def __init__(self, y_hat=None, y=None) -> None:
-        '''
+    """
+
+    def __init__(
+        self: "MeanAbsoluteError",
+        y_hat: np.ndarray = None,
+        y: np.ndarray = None
+    ) -> None:
+        """
+        Initialize the MeanAbsoluteError class.
+
+        args:
         y_hat: predicted values
         y: true values
-        '''
+        """
         self.y_hat = y_hat
         self.y = y
 
-    def evaluate(self, y_hat, y) -> float:
-        '''
+    def evaluate(
+        self: "MeanAbsoluteError",
+        y_hat: np.ndarray,
+        y: np.ndarray
+    ) -> float:
+        """
+        Evaluate the mean absolute error.
+
+        args:
         y_hat: predicted values
         y: true values
         returns:
             mean absolute error
-        '''
+        """
         return np.mean(np.abs(y_hat - y))
 
 
 class RSquared(Metric):
-    '''R Squared metric
+    """
+    R Squared metric.
+
     args:
         y_hat: predicted values
         y: true values
     returns:
         r squared value
-    '''
-    def __init__(self, y_hat=None, y=None) -> None:
-        '''
+    """
+
+    def __init__(
+        self: "RSquared",
+        y_hat: np.ndarray = None,
+        y: np.ndarray = None
+    ) -> None:
+        """
+        Initialize the RSquared class.
+
+        args:
         y_hat: predicted values
         y: true values
-        '''
+        """
         self.y_hat = y_hat
         self.y = y
 
-    def evaluate(self, y_hat, y) -> float:
-        '''
+    def evaluate(self: "RSquared", y_hat: np.ndarray, y: np.ndarray) -> float:
+        """
+        Evaluate the r squared value.
+
+        args:
         y_hat: predicted values
         y: true values
         returns:
             r squared value
-        '''
+        """
         ss_res = np.sum((y - y_hat) ** 2)
         ss_tot = np.sum((y - np.mean(y)) ** 2)
         return 1 - (ss_res / ss_tot)
@@ -133,82 +178,121 @@ class RSquared(Metric):
 
 # Metric implementations for classification
 class Accuracy(Metric):
-    '''Accuracy metric
+    """
+    Accuracy metric.
+
     args:
         y_hat: predicted values
         y: true values
     returns:
         accuracy
-    '''
-    def __init__(self, y_hat=None, y=None) -> None:
-        '''
+    """
+
+    def __init__(
+        self: "Accuracy",
+        y_hat: np.ndarray = None,
+        y: np.ndarray = None
+    ) -> None:
+        """
+        Initialize the Accuracy class.
+
+        args:
         y_hat: predicted values
         y: true values
-        '''
+        """
         self.y_hat = y_hat
         self.y = y
 
-    def evaluate(self, y_hat, y) -> float:
-        '''
+    def evaluate(self: "Accuracy", y_hat: np.ndarray, y: np.ndarray) -> float:
+        """
+        Evaluate the accuracy.
+
+        args:
         y_hat: predicted values
         y: true values
         returns:
             accuracy
-        '''
+        """
         return np.mean(y_hat == y)
 
 
 class Precision(Metric):
-    '''Precision metric
+    """
+    Precision metric.
+
     args:
         y_hat: predicted values
         y: true values
     returns:
         precision
-    '''
-    def __init__(self, y_hat=None, y=None):
-        '''
+    """
+
+    def __init__(
+        self: "Precision",
+        y_hat: np.ndarray = None,
+        y: np.ndarray = None
+    ) -> None:
+        """
+        Initialize the Precision class.
+
+        args:
         y_hat: predicted values
         y: true values
-        '''
+        """
         self.y_hat = y_hat
         self.y = y
 
-    def evaluate(self, y_hat, y) -> float:
-        '''
+    def evaluate(self: "Precision", y_hat: np.ndarray, y: np.ndarray) -> float:
+        """
+        Evaluate the precision.
+
+        args:
         y_hat: predicted values
         y: true values
         returns:
             precision
-        '''
+        """
         true_positive = np.sum((y_hat == 1) & (y == 1))
         false_positive = np.sum((y_hat == 1) & (y == 0))
         return true_positive / (true_positive + false_positive)
 
 
 class Recall(Metric):
-    '''Recall metric
+    """
+    Recall metric.
+
     args:
         y_hat: predicted values
         y: true values
     returns:
         recall
-    '''
-    def __init__(self, y_hat=None, y=None):
-        '''
+    """
+
+    def __init__(
+        self: "Recall",
+        y_hat: np.ndarray = None,
+        y: np.ndarray = None
+    ) -> None:
+        """
+        Initialize the Recall class.
+
+        args:
         y_hat: predicted values
         y: true values
-        '''
+        """
         self.y_hat = y_hat
         self.y = y
 
-    def evaluate(self, y_hat, y) -> float:
-        '''
+    def evaluate(self: "Recall", y_hat: np.ndarray, y: np.ndarray) -> float:
+        """
+        Evaluate the recall.
+
+        args:
         y_hat: predicted values
         y: true values
         returns:
             recall
-        '''
+        """
         true_positive = np.sum((y_hat == 1) & (y == 1))
         false_negative = np.sum((y_hat == 0) & (y == 1))
         return true_positive / (true_positive + false_negative)
