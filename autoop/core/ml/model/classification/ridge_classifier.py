@@ -8,13 +8,9 @@ from autoop.core.ml.model.model import Model
 
 class RidgeClassifier(Model):
     parameters: dict = None
-    _model: ClassVar[RidgeClassifier] = RidgeClassifier
+    _model: ClassVar[RidgeClassifier] = RidgeClassifier()
     type: ClassVar[str] = "classification"
     def fit(self, observations: np.ndarray, ground_truth: np.ndarray):
-        self.parameters = {
-            "coefficients": self._model.coefs_,
-            "intercept": self._model.intercepts_,
-        }
         self._model.fit(observations, ground_truth)
 
     def predict(self, observations: np.ndarray) -> np.ndarray:

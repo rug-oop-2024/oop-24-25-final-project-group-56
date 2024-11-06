@@ -5,8 +5,8 @@ from autoop.core.ml.model.regression.multiple_linear_regression import (
 )
 from autoop.core.ml.model.regression.lasso_regression import LassoRegression
 from autoop.core.ml.model.regression.mlp_regressor import MLPRegressor
-from autoop.core.ml.model.classification.logistic_regression import (
-    LogisticRegression,
+from autoop.core.ml.model.classification.k_neighbors_classifier import (
+    KNClassifier,
 )
 from autoop.core.ml.model.classification.mlp_classifier import MLPClassifier
 from autoop.core.ml.model.classification.ridge_classifier import (
@@ -20,7 +20,7 @@ REGRESSION_MODELS = [
 ]  # add your models as str here
 
 CLASSIFICATION_MODELS = [
-    "LogisticRegression",
+    "KNClassifier",
     "MLPClassifier",
     "RidgeClassifier",
 ]  # add your models as str here
@@ -40,5 +40,5 @@ def get_model(model_name: str) -> Model:
             return MLPClassifier()
         elif model_name == "RidgeClassifier":
             return RidgeClassifier()
-        elif model_name == "LogisticRegression":
-            return LogisticRegression()
+        elif model_name == "KNClassifier":
+            return KNClassifier()

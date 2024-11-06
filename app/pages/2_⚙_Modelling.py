@@ -72,12 +72,12 @@ st.header("Select the model")
 if target_feature.type == "categorical":
     model_str = st.selectbox(
         "Select the model",
-        ["LogisticRegression", "MLPClassifier", "RidgeClassifier"]
+        ["KNClassifier", "MLPClassifier", "RidgeClassifier"]
     )
 else:
     model_str = st.selectbox(
         "Select the model",
-        ["MultipleLinearRegression", "Lasso", "MLPRegressor"]
+        ["MultipleLinearRegression", "LassoRegression", "MLPRegressor"]
     )
 
 model = get_model(model_str)

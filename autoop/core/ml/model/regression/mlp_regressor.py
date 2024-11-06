@@ -18,10 +18,13 @@ class MLPRegressor(Model):
             observations: np.ndarray: input data
             ground_truth: np.ndarray: target data
         """
-        self.parameters = {
-            None: None
-        }
         self._model.fit(observations, ground_truth)
+        self._parameters = {
+            "hidden_layer_sizes": self._model.hidden_layer_sizes,
+            "activation": self._model.activation,
+            "solver": self._model.solver,
+            "alpha": self._model.alpha,
+        }
 
     def predict(self, observations: np.ndarray) -> np.ndarray:
         """Predict the target variable.

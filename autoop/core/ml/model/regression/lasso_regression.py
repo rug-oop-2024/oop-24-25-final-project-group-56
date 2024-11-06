@@ -18,11 +18,11 @@ class LassoRegression(Model):
             observations: np.ndarray: input data
             ground_truth: np.ndarray: target data
         """
+        self._model.fit(observations, ground_truth)
         self.parameters = {
             "coefficients": self._model.coef_,
             "intercept": self._model.intercept_
         }
-        self._model.fit(observations, ground_truth)
 
     def predict(self, observations: np.ndarray) -> np.ndarray:
         """Predict the target variable.

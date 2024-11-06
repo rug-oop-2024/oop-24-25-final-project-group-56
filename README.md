@@ -174,9 +174,9 @@ If you did not implement the feature
 | `ST/modelling/pipeline/summary`       | FN           |        Both          |    x    | |
 | `ST/modelling/pipeline/train`         | FN           |        Both          |    x    | |
 | `ST/modelling/pipeline/save`          | FN           |        Both          |    x    | |
-| `ST/page/deployment`                  | FN           |                      |         | |
-| `ST/deployment/load`                  | FN           |                      |         | |
-| `ST/deployment/predict`               | FN           |                      |         | |
+| `ST/page/deployment`                  | FN           |        Both          |    x    | |
+| `ST/deployment/load`                  | FN           |        Both          |    x    | |
+| `ST/deployment/predict`               | FN           |        Both          |    x    | |
 
 If you add extra features, please indicate them below:
 | Requirement                           | Type (FN/NF) | Implemented by       | Implementation Completed (add X if done) | Comment |
